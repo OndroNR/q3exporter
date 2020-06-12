@@ -1,0 +1,34 @@
+{
+  "name": "q3exporter",
+  "version": "0.0.1",
+  "description": "Quake 3 server status Prometheus exporter",
+  "main": "index.js",
+  "dependencies": {
+    "@hapi/hapi": "^19.1.1",
+    "gamedig": "^2.0.20",
+    "laabr": "^6.1.0",
+    "morgan": "^1.10.0",
+    "prom-client": "^12.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "quake3",
+    "ioquake3",
+    "prometheus",
+    "metrics",
+    "gamedig"
+  ],
+  "author": "Ondrej Galbavy <ondrej.galbavy@gmail.com>",
+  "license": "MIT"
+}
