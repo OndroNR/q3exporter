@@ -85,6 +85,10 @@ m.probeSuccessGauge = new promClient.Gauge({
   registers: [quakeRegister],
 });
 
+const keepAscii = function(str) {
+  return str.replace(/[^\x20-\x7E]/gu, '');
+};
+
 const init = async () => {
   const server = Hapi.server({
     port: 3000,
@@ -125,23 +129,35 @@ const init = async () => {
         });
         quakeRegister.resetMetrics();
         m.probeSuccessGauge.set(1);
-        m.fragLimitGauge.set({server_name: res.name}, parseInt(res.raw.fraglimit));
-        m.timeLimitGauge.set({server_name: res.name}, parseInt(res.raw.timelimit));
-        m.captureLimitGauge.set({server_name: res.name}, parseInt(res.raw.capturelimit));
-        m.gametypeGauge.set({server_name: res.name}, parseInt(res.raw.g_gametype));
-        m.maxPlayersGauge.set({server_name: res.name}, parseInt(res.maxplayers));
-        m.playersGauge.set({server_name: res.name, map: res.map, bot: 0}, res.players.length);
-        m.playersGauge.set({server_name: res.name, map: res.map, bot: 1}, res.bots.length);
-        m.mapGauge.set({server_name: res.name, map: res.map}, 1);
-        m.pingGauge.set({server_name: res.name}, res.ping);
+        const serverName = keepAscii(res.name).trim();
+        m.fragLimitGauge.set({server_name: serverName}, parseInt(res.raw.fraglimit));
+        m.timeLimitGauge.set({server_name: serverName}, parseInt(res.raw.timelimit));
+        m.captureLimitGauge.set({server_name: serverName}, parseInt(res.raw.capturelimit));
+        m.gametypeGauge.set({server_name: serverName}, parseInt(res.raw.g_gametype));
+        m.maxPlayersGauge.set({server_name: serverName}, parseInt(res.maxplayers));
+        m.playersGauge.set({server_name: serverName, map: res.map, bot: 0}, res.players.length);
+        m.playersGauge.set({server_name: serverName, map: res.map, bot: 1}, res.bots.length);
+        m.mapGauge.set({server_name: serverName, map: res.map}, 1);
+        m.pingGauge.set({server_name: serverName}, res.ping);
 
         res.players.forEach((player) => {
-          m.playerScoreGauge.set({server_name: res.name, map: res.map, player_name: player.name, bot: 0}, player.frags);
-          m.playerPingGauge.set({server_name: res.name, player_name: player.name}, player.ping);
+          const playerName = keepAscii(player.name).trim();
+          m.playerScoreGauge.set(
+              {server_name: serverName, map: res.map, player_name: playerName, bot: 0},
+              player.frags,
+          );
+          m.playerPingGauge.set(
+              {server_name: serverName, player_name: playerName},
+              player.ping,
+          );
         });
 
         res.bots.forEach((player) => {
-          m.playerScoreGauge.set({server_name: res.name, map: res.map, player_name: player.name, bot: 1}, player.frags);
+          const playerName = keepAscii(player.name).trim();
+          m.playerScoreGauge.set(
+              {server_name: serverName, map: res.map, player_name: playerName, bot: 1},
+              player.frags,
+          );
         });
       } catch {
         quakeRegister.resetMetrics();
