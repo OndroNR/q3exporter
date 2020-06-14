@@ -5,6 +5,17 @@ const laabr = require('laabr');
 const Gamedig = require('gamedig');
 const promClient = require('prom-client');
 
+const gameTypeMap = {
+  0: 'Free For All',
+  1: 'Tournament',
+  2: 'Single Player',
+  3: 'Team Deathmatch',
+  4: 'Capture the Flag',
+  5: 'One Flag CTF',
+  6: 'Overload',
+  7: 'Harvester',
+};
+
 promClient.collectDefaultMetrics();
 const m = {};
 const quakeRegister = new promClient.Registry();
@@ -61,7 +72,7 @@ m.playersGauge = new promClient.Gauge({
 m.gametypeGauge = new promClient.Gauge({
   name: 'quake3_gametype',
   help: 'xxx',
-  labelNames: ['server_name', 'map'],
+  labelNames: ['server_name', 'map', 'game_type'],
   registers: [quakeRegister],
 });
 
@@ -133,7 +144,8 @@ const init = async () => {
         m.fragLimitGauge.set({server_name: serverName}, parseInt(res.raw.fraglimit));
         m.timeLimitGauge.set({server_name: serverName}, parseInt(res.raw.timelimit));
         m.captureLimitGauge.set({server_name: serverName}, parseInt(res.raw.capturelimit));
-        m.gametypeGauge.set({server_name: serverName}, parseInt(res.raw.g_gametype));
+        const gameType = gameTypeMap[parseInt(res.raw.g_gametype)];
+        m.gametypeGauge.set({server_name: serverName, game_type: gameType}, 1);
         m.maxPlayersGauge.set({server_name: serverName}, parseInt(res.maxplayers));
         m.playersGauge.set({server_name: serverName, map: res.map, bot: 0}, res.players.length);
         m.playersGauge.set({server_name: serverName, map: res.map, bot: 1}, res.bots.length);
