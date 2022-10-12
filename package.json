@@ -4,20 +4,20 @@
   "description": "Quake 3 server status Prometheus exporter",
   "main": "index.js",
   "dependencies": {
-    "@hapi/hapi": "^19.1.1",
-    "gamedig": "^2.0.20",
-    "laabr": "^6.1.0",
+    "@hapi/hapi": "^20.2.2",
+    "gamedig": "^4.0.5",
+    "laabr": "^6.1.3",
     "morgan": "^1.10.0",
-    "prom-client": "^12.0.0"
+    "prom-client": "^14.1.0"
   },
   "devDependencies": {
-    "eslint": "^7.2.0",
+    "eslint": "^8.25.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-standard": "^5.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
