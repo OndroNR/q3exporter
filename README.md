@@ -1,3 +1,10 @@
+# Quake3 prometheus exporter
+
+Use like `http://127.0.0.1:3000/probe?target=127.0.0.1:27960`
+
+README TODO
+
+```
 metrics:
 ping
 fraglimit
@@ -53,3 +60,4 @@ bot?
   "connect": "195.12.142.22:35262",
   "ping": 4
 }
+```
